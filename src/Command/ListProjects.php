@@ -28,6 +28,10 @@ class ListProjects
             echo 'You have no active projects' . PHP_EOL;
             return;
         }
+
+        foreach ($projects as $project) {
+            echo $project->getName() . PHP_EOL;
+        }
     }
 
     public function getKey()
