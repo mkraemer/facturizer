@@ -5,12 +5,12 @@ namespace Facturizer\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Facturizer\Entity\Project
+ * Facturizer\Entity\Client
  *
  * @ORM\Table()
  * @ORM\Entity()
  */
-class Project
+class Client
 {
     /**
      * @var integer
@@ -22,16 +22,16 @@ class Project
     private $id;
 
     /**
-     * @var text
+     * @var string
      *
-     * @ORM\Column(name="name", type="text")
+     * @ORM\Column(name="name", type="string")
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client", inversedBy="projects")
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="client")
      */
-    private $client;
+    private $projects;
 
     /**
      * get id
@@ -66,24 +66,12 @@ class Project
     }
 
     /**
-     * get client
+     * get projects
      *
-     * @return Client client
+     * @return ArrayCollection projects
      */
-    public function getClient()
+    public function getProjects()
     {
-        return $this->client;
-    }
-
-    /**
-     * set client
-     *
-     * @param Client $client
-     */
-    public function setClient($client)
-    {
-        $this->client = $client;
-
-        return $this;
+        return $this->projects;
     }
 }
