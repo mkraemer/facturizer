@@ -26,7 +26,7 @@ $switches = $parser->getSwitches();
 $inputs = $parser->getInputs();
 
 if (empty($inputs)) {
-    $inputs[] = 'list-projects';
+    $inputs[] = 'projects';
 }
 
 $commandRegistry = $container->get('facturizer.registry.command_registry');
