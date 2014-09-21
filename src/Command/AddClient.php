@@ -3,8 +3,7 @@
 namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
-use Hoa\Console\Readline\Readline,
-    Hoa\Console\Cursor;
+use Hoa\Console\Cursor;
 use Facturizer\Entity\Client,
     Facturizer\Exception\InvalidSyntaxException;
 
