@@ -3,13 +3,13 @@ services:
         class: Facturizer\Command\ListActivities
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: l}
+            - { name: facturizer.command, alias: al}
 
     facturizer.command.add_activity:
         class: Facturizer\Command\AddActivity
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: a}
+            - { name: facturizer.command, alias: ac}
 
     facturizer.command.list_commands:
         class: Facturizer\Command\ListCommands
@@ -21,22 +21,22 @@ services:
         class: Facturizer\Command\ListProjects
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: projects }
+            - { name: facturizer.command, alias: pl }
 
     facturizer.command.add_project:
         class: Facturizer\Command\AddProject
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: add-project}
+            - { name: facturizer.command, alias: pc}
 
     facturizer.command.list_clients:
         class: Facturizer\Command\ListClients
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: clients}
+            - { name: facturizer.command, alias: cl}
 
     facturizer.command.add_client:
         class: Facturizer\Command\AddClient
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: add-client}
+            - { name: facturizer.command, alias: cc}
