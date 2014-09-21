@@ -44,7 +44,7 @@ class AddActivity
         $this->entityManager->flush();
 
         Cursor::colorize('fg(green)');
-        echo 'Activity created' . PHP_EOL;
+        echo 'Activity created with id ' . $activity->getId() . PHP_EOL;
     }
 
     public function getDescription()
