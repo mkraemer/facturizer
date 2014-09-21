@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": { "Facturizer\\": "src" }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/dependency-injection": "2.5.*",
+        "symfony/config": "2.5.*",
+        "symfony/yaml": "2.5.*",
+        "doctrine/orm": "2.4.*",
+        "hoa/console": "dev-master",
+        "hoa/router": "dev-master"
+    }
+}

@@ -1,0 +1,29 @@
+services:
+    doctrine.config:
+        class: Doctrine\ORM\Configuration
+        factory_class: Doctrine\ORM\Tools\Setup
+        factory_method: createAnnotationMetadataConfiguration
+        arguments:
+            - ['src/Entity']
+            - true #devMode
+            - ~
+            - ~
+            - false
+
+    doctrine.orm.entity_manager:
+        class: Doctrine\ORM\EntityManager
+        factory_class: Doctrine\ORM\EntityManager
+        factory_method: create
+        arguments:
+            -
+                driver: pdo_sqlite
+                path: facturizer.db
+            - '@doctrine.config'
+
+    facturizer.registry.command_registry:
+        class: Facturizer\Registry\CommandRegistry
+
+    facturizer.command.item_list:
+        class: Facturizer\Command\ItemList
+        tags:
+            - { name: facturizer.command, alias: item-list }
