@@ -3,8 +3,8 @@
 namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
-use Hoa\Console\Cursor;
-use Hoa\Console\Chrome\Text;
+use Hoa\Console\Cursor,
+    Hoa\Console\Chrome\Text;
 
 /**
  * Command\ListProjects

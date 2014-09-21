@@ -3,7 +3,8 @@
 namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
-use Hoa\Console\Cursor;
+use Hoa\Console\Cursor,
+    Hoa\Console\Chrome\Text;
 
 /**
  * Command\ListClients
@@ -29,9 +30,12 @@ class ListClients
             return;
         }
 
+        $data = [['Id', 'Client']];
         foreach ($clients as $client) {
-            echo $client->getName() . PHP_EOL;
+            $data[] = [$client->getId(), $client->getName()];
         }
+
+        echo Text::columnize($data);
     }
 
     public function getKey()

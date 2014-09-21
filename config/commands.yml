@@ -15,7 +15,7 @@ services:
         class: Facturizer\Command\ListProjects
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: list-projects }
+            - { name: facturizer.command, alias: projects }
 
     facturizer.command.add_project:
         class: Facturizer\Command\AddProject
@@ -27,8 +27,7 @@ services:
         class: Facturizer\Command\ListClients
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: list-clients}
-
+            - { name: facturizer.command, alias: clients}
 
     facturizer.command.add_client:
         class: Facturizer\Command\AddClient

@@ -3,9 +3,9 @@
 namespace Facturizer\Command;
 
 use RuntimeException;
-use Facturizer\Exception\InvalidSyntaxException;
 use Doctrine\ORM\EntityManager;
-use Facturizer\Entity\Activity;
+use Facturizer\Entity\Activity,
+    Facturizer\Exception\InvalidSyntaxException;
 
 /**
  * Facturizer\Command\AddActivity
