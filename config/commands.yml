@@ -1,5 +1,6 @@
 services:
-    facturizer.command.item_list:
-        class: Facturizer\Command\ItemList
+    facturizer.command.project_list:
+        class: Facturizer\Command\ListProjects
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: item-list }
+            - { name: facturizer.command, alias: project-list }

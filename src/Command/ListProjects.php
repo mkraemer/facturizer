@@ -3,9 +3,9 @@
 namespace Facturizer\Command;
 
 /**
- * Command\ItemList
+ * Command\ListProjects
  */
-class ItemList
+class ListProjects
 {
     public function __invoke()
     {
@@ -14,6 +14,6 @@ class ItemList
 
     public function getKey()
     {
-        return 'item-list';
+        return 'list-projects';
     }
 }
