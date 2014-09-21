@@ -4,6 +4,7 @@ namespace Facturizer\Command;
 
 use RuntimeException;
 use Doctrine\ORM\EntityManager;
+use Hoa\Console\Cursor;
 use Facturizer\Entity\Activity,
     Facturizer\Exception\InvalidSyntaxException;
 
