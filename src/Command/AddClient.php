@@ -5,12 +5,12 @@ namespace Facturizer\Command;
 use Doctrine\ORM\EntityManager;
 use Hoa\Console\Readline\Readline;
 use Hoa\Console\Cursor;
-use Facturizer\Entity\Project;
+use Facturizer\Entity\Client;
 
 /**
- * Facturizer\Command\AddProject
+ * Facturizer\Command\AddClient
  */
-class AddProject
+class AddClient
 {
     protected $entityManager;
 
@@ -22,8 +22,13 @@ class AddProject
     public function __invoke()
     {
         Cursor::colorize('fg(yellow)');
-        $project = new Project();
+        $client = new Client();
 
-        $project->setName(Readline('Name?> '));
+        $client->setName(Readline('Name? > '));
+        $client->setHourlyRate(Readline('Hourly rate for client? > '));
+        $client->setCurrency(Readline('Currency sign? > '));
+
+        $this->entityManager->persist($client);
+        $this->entityManager->flush();
     }
 }

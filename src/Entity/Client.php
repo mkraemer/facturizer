@@ -34,6 +34,21 @@ class Client
     private $projects;
 
     /**
+     * @var decimal
+     *
+     * @ORM\Column(name="hourly_rate", type="decimal", precision=6, scale=2)
+     */
+    private $hourlyRate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="currency", type="string")
+     */
+    private $currency;
+
+
+    /**
      * get id
      *
      * @return integer id
@@ -73,5 +88,49 @@ class Client
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * get hourlyRate
+     *
+     * @return float hourlyRate
+     */
+    public function getHourlyRate()
+    {
+        return $this->hourlyRate;
+    }
+
+    /**
+     * set hourlyRate
+     *
+     * @param float $hourlyRate
+     */
+    public function setHourlyRate($hourlyRate)
+    {
+        $this->hourlyRate = $hourlyRate;
+
+        return $this;
+    }
+
+    /**
+     * get currency
+     *
+     * @return string currency
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * set currency
+     *
+     * @param string $currency
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+
+        return $this;
     }
 }

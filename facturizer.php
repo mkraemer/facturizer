@@ -19,8 +19,12 @@ $parser->parse(Hoa\Router\Cli::getURI());
 $switches = $parser->getSwitches();
 $inputs = $parser->getInputs();
 
+if ($argv[0] == 'vendor/bin/doctrine.php') {
+    return;
+}
+
 if (empty($inputs)) {
-    $inputs[] = 'project-list';
+    $inputs[] = 'list-projects';
 }
 
 $commandRegistry = $container->get('facturizer.registry.command_registry');
