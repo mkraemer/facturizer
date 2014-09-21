@@ -3,9 +3,10 @@
 namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
-use Hoa\Console\Readline\Readline;
-use Hoa\Console\Cursor;
-use Facturizer\Entity\Client;
+use Hoa\Console\Readline\Readline,
+    Hoa\Console\Cursor;
+use Facturizer\Entity\Client,
+    Facturizer\Exception\InvalidSyntaxException;
 
 /**
  * Facturizer\Command\AddClient
@@ -19,16 +20,22 @@ class AddClient
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke()
+    public function __invoke($inputs, $switches)
     {
-        Cursor::colorize('fg(yellow)');
+        if (count($inputs) != 3) {
+            throw new InvalidSyntaxException('Parameters for this command: client-name hourly-rate currency-sign');
+        }
+
         $client = new Client();
 
-        $client->setName(Readline('Name? > '));
-        $client->setHourlyRate(Readline('Hourly rate for client? > '));
-        $client->setCurrency(Readline('Currency sign? > '));
+        $client->setName(array_shift($inputs));
+        $client->setHourlyRate(array_shift($inputs));
+        $client->setCurrency(array_shift($inputs));
 
         $this->entityManager->persist($client);
         $this->entityManager->flush();
+
+        Cursor::colorize('fg(green)');
+        echo 'Client created with id ' . $client->getId() . PHP_EOL;
     }
 }
