@@ -1,9 +1,15 @@
 services:
+    facturizer.command.list_activities:
+        class: Facturizer\Command\ListActivities
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: facturizer.command, alias: l}
+
     facturizer.command.add_activity:
         class: Facturizer\Command\AddActivity
         arguments: ['@doctrine.orm.entity_manager']
         tags:
-            - { name: facturizer.command, alias: add-activity }
+            - { name: facturizer.command, alias: a}
 
     facturizer.command.list_commands:
         class: Facturizer\Command\ListCommands

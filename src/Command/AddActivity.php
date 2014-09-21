@@ -21,7 +21,7 @@ class AddActivity
 
     public function __invoke($inputs, $switches)
     {
-        if (count($inputs) != 2) {
+        if (count($inputs) < 2) {
             throw new InvalidSyntaxException('Parameters for this command: project-id activity-name');
         }
 
@@ -41,5 +41,8 @@ class AddActivity
 
         $this->entityManager->persist($activity);
         $this->entityManager->flush();
+
+        Cursor::colorize('fg(green)');
+        echo 'Activity created' . PHP_EOL;
     }
 }

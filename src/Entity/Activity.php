@@ -41,8 +41,9 @@ class Activity
      */
     private $timeSpent;
 
-    public function __construct()
+    public function __construct(Project $project)
     {
+        $this->project = $project;
         $this->timeSpent = new DateInterval('PT0H');
     }
 
