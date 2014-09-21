@@ -1,4 +1,10 @@
 services:
+    facturizer.command.list_commands:
+        class: Facturizer\Command\ListCommands
+        arguments: ['@facturizer.registry.command_registry']
+        tags:
+            - { name: facturizer.command, alias: help }
+
     facturizer.command.list_projects:
         class: Facturizer\Command\ListProjects
         arguments: ['@doctrine.orm.entity_manager']

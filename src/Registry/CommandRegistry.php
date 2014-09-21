@@ -20,6 +20,11 @@ class CommandRegistry
         return $this->commands[$key];
     }
 
+    public function getAll()
+    {
+        return $this->commands;
+    }
+
     public function add(callable $command, $alias)
     {
         $this->commands[$alias] = $command;
