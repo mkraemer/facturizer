@@ -24,6 +24,7 @@ class ListCommands
 
         Cursor::colorize('fg(white)');
         $commands = $this->commandRegistry->getAll();
+        ksort($commands);
         foreach ($commands as $alias => $command) {
             echo $alias . PHP_EOL;
         }
