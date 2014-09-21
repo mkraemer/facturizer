@@ -1,3 +1,6 @@
+imports:
+- { resource: commands.yml }
+
 services:
     doctrine.config:
         class: Doctrine\ORM\Configuration
@@ -22,8 +25,3 @@ services:
 
     facturizer.registry.command_registry:
         class: Facturizer\Registry\CommandRegistry
-
-    facturizer.command.item_list:
-        class: Facturizer\Command\ItemList
-        tags:
-            - { name: facturizer.command, alias: item-list }

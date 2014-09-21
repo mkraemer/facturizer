@@ -1,0 +1,5 @@
+services:
+    facturizer.command.item_list:
+        class: Facturizer\Command\ItemList
+        tags:
+            - { name: facturizer.command, alias: item-list }
