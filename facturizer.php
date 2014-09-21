@@ -19,6 +19,10 @@ $parser->parse(Hoa\Router\Cli::getURI());
 $switches = $parser->getSwitches();
 $inputs = $parser->getInputs();
 
+if (empty($inputs)) {
+    $inputs[] = 'item-list';
+}
+
 $commandRegistry = $container->get('facturizer.registry.command_registry');
 $command = $commandRegistry->getByKey(array_shift($inputs));
 $command();
