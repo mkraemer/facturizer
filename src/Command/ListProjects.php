@@ -4,6 +4,7 @@ namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
+use Hoa\Console\Chrome\Text;
 
 /**
  * Command\ListProjects
@@ -29,9 +30,12 @@ class ListProjects
             return;
         }
 
+        $data = [['Id', 'Project', 'Client']];
         foreach ($projects as $project) {
-            echo $project->getName() . PHP_EOL;
+            $data[] = [$project->getId(), $project->getName(), $project->getClient()->getName()];
         }
+
+        echo Text::columnize($data);
     }
 
     public function getKey()
