@@ -38,4 +38,9 @@ class AddClient
         Cursor::colorize('fg(green)');
         echo 'Client created with id ' . $client->getId() . PHP_EOL;
     }
+
+    public function getDescription()
+    {
+        return 'Creates a new client';
+    }
 }

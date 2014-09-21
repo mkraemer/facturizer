@@ -2,7 +2,8 @@
 
 namespace Facturizer\Command;
 
-use Hoa\Console\Cursor;
+use Hoa\Console\Cursor,
+    Hoa\Console\Chrome\Text;
 use Facturizer\Registry\CommandRegistry;
 
 /**
@@ -25,8 +26,17 @@ class ListCommands
         Cursor::colorize('fg(white)');
         $commands = $this->commandRegistry->getAll();
         ksort($commands);
+
+        $data = [['Command', 'Description']];
         foreach ($commands as $alias => $command) {
-            echo $alias . PHP_EOL;
+            $data[] = [$alias, $command->getDescription()];
         }
+
+        echo Text::columnize($data);
+    }
+
+    public function getDescription()
+    {
+        return 'Lists all commands';
     }
 }

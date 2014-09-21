@@ -45,4 +45,9 @@ class AddActivity
         Cursor::colorize('fg(green)');
         echo 'Activity created' . PHP_EOL;
     }
+
+    public function getDescription()
+    {
+        return 'Creates a new activity for a project';
+    }
 }

@@ -51,4 +51,9 @@ class AddProject
         Cursor::colorize('fg(green)');
         echo 'Project created with id ' . $project->getId() . PHP_EOL;
     }
+
+    public function getDescription()
+    {
+        return 'Creates a new project for a client';
+    }
 }

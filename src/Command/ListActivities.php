@@ -38,8 +38,8 @@ class ListActivities
         echo Text::columnize($data);
     }
 
-    public function getKey()
+    public function getDescription()
     {
-        return 'list-activities';
+        return 'Lists all active activities';
     }
 }

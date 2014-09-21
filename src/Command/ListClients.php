@@ -38,8 +38,8 @@ class ListClients
         echo Text::columnize($data);
     }
 
-    public function getKey()
+    public function getDescription()
     {
-        return 'list-clients';
+        return 'Lists all active clients';
     }
 }

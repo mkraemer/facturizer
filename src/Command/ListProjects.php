@@ -38,8 +38,8 @@ class ListProjects
         echo Text::columnize($data);
     }
 
-    public function getKey()
+    public function getDescription()
     {
-        return 'list-projects';
+        return 'Lists all active projects';
     }
 }
