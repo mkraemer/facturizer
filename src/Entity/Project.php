@@ -34,6 +34,11 @@ class Project
     private $client;
 
     /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="project")
+     */
+    private $activities;
+
+    /**
      * get id
      *
      * @return integer id
@@ -85,5 +90,15 @@ class Project
         $this->client = $client;
 
         return $this;
+    }
+
+    /**
+     * get activities
+     *
+     * @return ArrayCollection activities
+     */
+    public function getActivities()
+    {
+        return $this->activities;
     }
 }

@@ -30,9 +30,23 @@ class ListClients
             return;
         }
 
-        $data = [['Id', 'Client']];
+        $data = [['Id', 'Client', 'Projects', 'Unbilled Hours']];
         foreach ($clients as $client) {
-            $data[] = [$client->getId(), $client->getName()];
+            $unbilledHours = array_reduce(
+                $client->getProjects()->toArray(),
+                function ($carry, $project) {
+                    $unbilledProjectHours = array_reduce(
+                        $project->getActivities()->toArray(),
+                        function ($carry, $activity) {
+                            return $carry += $activity->getHoursSpent();
+                        },
+                        0
+                    );
+                    return $carry += $unbilledProjectHours;
+                },
+                0
+            );
+            $data[] = [$client->getId(), $client->getName(), $client->getProjects()->count(), $unbilledHours];
         }
 
         echo Text::columnize($data);
