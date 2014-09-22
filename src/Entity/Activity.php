@@ -42,16 +42,17 @@ class Activity
     private $hoursSpent;
 
     /**
-     * @var object
+     * @var boolean
      *
-     * @ORM\Column(name="time_spent", type="object")
+     * @ORM\Column(name="is_billable", type="boolean")
      */
-    private $timeSpent;
+    private $isBillable;
 
     public function __construct(Project $project)
     {
-        $this->project = $project;
+        $this->project    = $project;
         $this->hoursSpent = 0;
+        $this->isBillable = true;
     }
 
     /**
@@ -121,5 +122,27 @@ class Activity
     public function addHoursSpent($hours)
     {
         $this->hoursSpent += $hours;
+    }
+
+    /**
+     * isBillable
+     *
+     * @return boolean isBillable
+     */
+    public function isBillable()
+    {
+        return $this->isBillable;
+    }
+
+    /**
+     * set isBillable
+     *
+     * @param boolean $isBillable
+     */
+    public function setIsBillable($isBillable)
+    {
+        $this->isBillable = $isBillable;
+
+        return $this;
     }
 }

@@ -35,6 +35,9 @@ class ListProjects
             $unbilledProjectHours = array_reduce(
                 $project->getActivities()->toArray(),
                 function ($carry, $activity) {
+                    if (!$activity->isBillable()) {
+                        return $carry;
+                    }
                     return $carry += $activity->getHoursSpent();
                 },
                 0

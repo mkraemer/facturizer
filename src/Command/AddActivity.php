@@ -23,7 +23,7 @@ class AddActivity
     public function __invoke($inputs, $switches)
     {
         if (count($inputs) < 2) {
-            throw new InvalidSyntaxException('Parameters for this command: project-id activity-name');
+            throw new InvalidSyntaxException('Parameters for this command: project-id activity-name [--unbilled]');
         }
 
         $projectId = array_shift($inputs);
@@ -39,6 +39,10 @@ class AddActivity
 
         $activity = new Activity($project);
         $activity->setName($name);
+
+        if (array_key_exists('unbilled', $switches) && $switches['unbilled']) {
+            $activity->setIsBillable(false);
+        }
 
         $this->entityManager->persist($activity);
         $this->entityManager->flush();

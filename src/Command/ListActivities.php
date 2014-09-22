@@ -30,9 +30,9 @@ class ListActivities
             return;
         }
 
-        $data = [['Id', 'Activity', 'Client', 'Project', 'Time spent (h)']];
+        $data = [['Id', 'Activity', 'Client', 'Project', 'Time spent (h)', 'Billable']];
         foreach ($activities as $activity) {
-            $data[] = [$activity->getId(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent()];
+            $data[] = [$activity->getId(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent(), $activity->isBillable() ? 'x' : ''];
         }
 
         echo Text::columnize($data);
