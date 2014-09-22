@@ -30,9 +30,16 @@ class ListProjects
             return;
         }
 
-        $data = [['Id', 'Project', 'Client']];
+        $data = [['Id', 'Project', 'Client', 'Unbilled Hours']];
         foreach ($projects as $project) {
-            $data[] = [$project->getId(), $project->getName(), $project->getClient()->getName()];
+            $unbilledProjectHours = array_reduce(
+                $project->getActivities()->toArray(),
+                function ($carry, $activity) {
+                    return $carry += $activity->getHoursSpent();
+                },
+                0
+            );
+            $data[] = [$project->getId(), $project->getName(), $project->getClient()->getName(), $unbilledProjectHours];
         }
 
         echo Text::columnize($data);
