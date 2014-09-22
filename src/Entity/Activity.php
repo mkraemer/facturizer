@@ -35,6 +35,13 @@ class Activity
     private $project;
 
     /**
+     * @var decimal
+     *
+     * @ORM\Column(name="hours_spent", type="decimal", scale=5, precision=2)
+     */
+    private $hoursSpent;
+
+    /**
      * @var object
      *
      * @ORM\Column(name="time_spent", type="object")
@@ -44,7 +51,7 @@ class Activity
     public function __construct(Project $project)
     {
         $this->project = $project;
-        $this->timeSpent = new DateInterval('PT0H');
+        $this->hoursSpent = 0;
     }
 
     /**
@@ -102,24 +109,17 @@ class Activity
     }
 
     /**
-     * get timeSpent
+     * get hoursSpent
      *
-     * @return DateInterval timeSpent
+     * @return float hoursSpent
      */
-    public function getTimeSpent()
+    public function getHoursSpent()
     {
-        return $this->timeSpent;
+        return $this->hoursSpent;
     }
 
-    /**
-     * set timeSpent
-     *
-     * @param DateInterval $timeSpent
-     */
-    public function setTimeSpent(DateInterval $timeSpent)
+    public function addHoursSpent($hours)
     {
-        $this->timeSpent = $timeSpent;
-
-        return $this;
+        $this->hoursSpent += $hours;
     }
 }

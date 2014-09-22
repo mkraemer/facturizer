@@ -1,4 +1,10 @@
 services:
+    facturizer.command.book_activity:
+        class: Facturizer\Command\BookActivity
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: facturizer.command, alias: ab}
+
     facturizer.command.list_activities:
         class: Facturizer\Command\ListActivities
         arguments: ['@doctrine.orm.entity_manager']

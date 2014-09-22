@@ -27,6 +27,8 @@ $inputs = $parser->getInputs();
 
 if (empty($inputs)) {
     $inputs[] = 'al';
+} elseif (is_numeric($inputs[0])) {
+    array_unshift($inputs, 'ab');
 }
 
 $commandRegistry = $container->get('facturizer.registry.command_registry');
