@@ -2,27 +2,32 @@
 
 namespace Facturizer\Command;
 
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
-use Facturizer\TextHelper;
+use Facturizer\TextHelper,
+    Facturizer\Storage\ObjectStorage;
 
 /**
  * Command\ListProjects
  */
 class ListProjects
 {
-    protected $entityManager;
+    protected $clientStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $clientStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->clientStorage = $clientStorage;
     }
 
     public function __invoke()
     {
-        $projects = $this->entityManager
-            ->getRepository('Facturizer\Entity\Project')
-            ->findAll();
+        $clients = $this->clientStorage->get();
+        $projects = [];
+        foreach ($clients as $client) {
+            foreach ($client->getProjects() as $project) {
+                $project->setClient($client);
+                $projects[] = $project;
+            }
+        }
 
         if (empty($projects)) {
             Cursor::colorize('fg(yellow)');
@@ -31,9 +36,9 @@ class ListProjects
         }
 
         $data = [['Id', 'Project', 'Client', 'Unbilled Hours']];
-        foreach ($projects as $project) {
+        foreach ($projects as $client => $project) {
             $unbilledProjectHours = array_reduce(
-                $project->getActivities()->toArray(),
+                $project->getActivities(),
                 function ($carry, $activity) {
                     if (!$activity->isBillable()) {
                         return $carry;

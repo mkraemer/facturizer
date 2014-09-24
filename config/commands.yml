@@ -1,28 +1,28 @@
 services:
 
-    facturizer.command.create_invoice:
-        class: Facturizer\Command\CreateInvoice
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@facturizer.service.invoicing_service'
-        tags:
-            - { name: facturizer.command, alias: invoice}
+    #facturizer.command.create_invoice:
+        #class: Facturizer\Command\CreateInvoice
+        #arguments:
+            #- '@doctrine.orm.entity_manager'
+            #- '@facturizer.service.invoicing_service'
+        #tags:
+            #- { name: facturizer.command, alias: invoice}
 
     facturizer.command.book_activity:
         class: Facturizer\Command\BookActivity
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: ab}
 
     facturizer.command.list_activities:
         class: Facturizer\Command\ListActivities
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: al}
 
     facturizer.command.add_activity:
         class: Facturizer\Command\AddActivity
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: ac}
 
@@ -34,24 +34,24 @@ services:
 
     facturizer.command.list_projects:
         class: Facturizer\Command\ListProjects
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: pl }
 
     facturizer.command.add_project:
         class: Facturizer\Command\AddProject
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: pc}
 
     facturizer.command.list_clients:
         class: Facturizer\Command\ListClients
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: cl}
 
     facturizer.command.add_client:
         class: Facturizer\Command\AddClient
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@facturizer.storage.clients']
         tags:
             - { name: facturizer.command, alias: cc}

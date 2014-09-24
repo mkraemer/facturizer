@@ -7,9 +7,10 @@
         "symfony/dependency-injection": "2.5.*",
         "symfony/config": "2.5.*",
         "symfony/yaml": "2.5.*",
-        "doctrine/orm": "2.4.*",
         "hoa/console": "dev-master",
         "hoa/router": "dev-master",
-        "twig/twig": "v1.16.0"
+        "twig/twig": "v1.16.0",
+        "jms/serializer": "dev-master",
+        "symfony/filesystem": "dev-master"
     }
 }

@@ -2,41 +2,37 @@
 
 namespace Facturizer\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Facturizer\Entity\Project
- *
- * @ORM\Table()
- * @ORM\Entity()
  */
 class Project
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Type("string")
      */
     private $id;
 
     /**
-     * @var text
-     *
-     * @ORM\Column(name="name", type="text")
+     * @Serializer\Type("string")
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client", inversedBy="projects")
+     * @Serializer\Type("Facturizer\Entity\Client")
      */
     private $client;
 
     /**
-     * @ORM\OneToMany(targetEntity="Activity", mappedBy="project")
+     * @Serializer\Type("array<Facturizer\Entity\Activity>")
      */
-    private $activities;
+    private $activities = [];
+
+    public function __construct()
+    {
+        $this->id = uniqid();
+    }
 
     /**
      * get id
@@ -95,10 +91,15 @@ class Project
     /**
      * get activities
      *
-     * @return ArrayCollection activities
+     * @return array activities
      */
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    public function addActivity(Activity $activity)
+    {
+        $this->activities[] = $activity;
     }
 }

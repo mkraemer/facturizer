@@ -3,10 +3,10 @@
 namespace Facturizer\Command;
 
 use RuntimeException;
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
 use Facturizer\Entity\Activity,
     Facturizer\Service\ActivityService,
+    Facturizer\Storage\ObjectStorage,
     Facturizer\Exception\InvalidSyntaxException;
 
 /**
@@ -14,11 +14,11 @@ use Facturizer\Entity\Activity,
  */
 class BookActivity
 {
-    protected $entityManager;
+    protected $objectStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $objectStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->objectStorage = $objectStorage;
     }
 
     public function __invoke($inputs, $switches)
@@ -28,9 +28,23 @@ class BookActivity
         }
         $activityId = array_shift($inputs);
 
-        $activity = $this->entityManager
-            ->getRepository('Facturizer\Entity\Activity')
-            ->findOneById($activityId);
+        $activity = array_reduce(
+            $this->objectStorage->get(),
+            function ($carry, $client) use ($activityId) {
+                if ($carry) {
+                    return $carry;
+                }
+
+                foreach ($client->getProjects() as $project) {
+                    foreach ($project->getActivities() as $activity) {
+                        if ($activity->getId() == $activityId) {
+                            return $activity;
+                        }
+                    }
+                }
+            }
+        );
+
         if (!$activity) {
             throw new RuntimeException('Activity not found');
         }
@@ -39,7 +53,6 @@ class BookActivity
 
         $hoursSpentBefore = $activity->getHoursSpent();
         $activity->addHoursSpent($timeSpec);
-        $this->entityManager->flush();
 
         Cursor::colorize('fg(green)');
         echo sprintf('Time spent for activity "%s" is now at %sh (Before: %sh)', $activity->getName(), $activity->getHoursSpent(), $hoursSpentBefore), PHP_EOL;

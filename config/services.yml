@@ -3,27 +3,23 @@ imports:
 - { resource: parameters.yml }
 
 services:
-    doctrine.config:
-        class: Doctrine\ORM\Configuration
-        factory_class: Doctrine\ORM\Tools\Setup
-        factory_method: createAnnotationMetadataConfiguration
-        arguments:
-            - ['src/Entity']
-            - true #devMode
-            - ~
-            - ~
-            - false
+    facturizer.registry.command_registry:
+        class: Facturizer\Registry\CommandRegistry
 
-    doctrine.orm.entity_manager:
-        class: Doctrine\ORM\EntityManager
-        factory_class: Doctrine\ORM\EntityManager
-        factory_method: create
+    facturizer.service.invoicing_service:
+        class: Facturizer\Service\InvoicingService
         arguments:
-            -
-                driver: pdo_sqlite
-                path: facturizer.db
-            - '@doctrine.config'
+            - '@facturizer.storage.clients'
+            - '@twig.environment'
 
+    facturizer.storage.clients:
+        class: Facturizer\Storage\ObjectStorage
+        arguments:
+            - '@filesystem'
+            - '@serializer'
+            - %storage_path%
+            - 'Facturizer\Entity\Client'
+            - 'clients'
 
     twig.loader:
         class: Twig_Loader_Filesystem
@@ -32,13 +28,14 @@ services:
     twig.environment:
         class: Twig_Environment
         arguments:
-            - '@twig.loader'
+           - '@twig.loader'
 
-    facturizer.registry.command_registry:
-        class: Facturizer\Registry\CommandRegistry
+    filesystem:
+        class: Symfony\Component\Filesystem\Filesystem
 
-    facturizer.service.invoicing_service:
-        class: Facturizer\Service\InvoicingService
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@twig.environment'
+    serializer_builder:
+        class: JMS\Serializer\SerializerBuilder
+    serializer:
+        class: JMS\Serializer\Serializer
+        factory_service: serializer_builder
+        factory_method: build

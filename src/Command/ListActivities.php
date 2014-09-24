@@ -2,27 +2,38 @@
 
 namespace Facturizer\Command;
 
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
-use Facturizer\TextHelper;
+use Facturizer\TextHelper,
+    Facturizer\Storage\ObjectStorage;
 
 /**
  * Command\ListActivities
  */
 class ListActivities
 {
-    protected $entityManager;
+    protected $objectStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $objectStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->objectStorage = $objectStorage;
     }
 
     public function __invoke()
     {
-        $activities = $this->entityManager
-            ->getRepository('Facturizer\Entity\Activity')
-            ->findAll();
+        $activities = array_reduce(
+            $this->objectStorage->get(),
+            function ($carry, $client) {
+                foreach ($client->getProjects() as $project) {
+                    $project->setClient($client);
+                    foreach ($project->getActivities() as $activity) {
+                        $activity->setProject($project);
+                        $carry[] = $activity;
+                    }
+                }
+                return $carry;
+            },
+            []
+        );
 
         if (empty($activities)) {
             Cursor::colorize('fg(yellow)');
@@ -32,7 +43,7 @@ class ListActivities
 
         $data = [['Id', 'Activity', 'Client', 'Project', 'Time spent (h)', 'Billable']];
         foreach ($activities as $activity) {
-            $data[] = [$activity->getId(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent(), $activity->isBillable() ? 'x' : ''];
+            $data[] = [$activity->getId(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent(), $activity->isBillable() ? '√' : ''];
         }
 
         echo TextHelper::buildTable($data);

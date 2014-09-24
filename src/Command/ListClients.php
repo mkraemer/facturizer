@@ -2,26 +2,24 @@
 
 namespace Facturizer\Command;
 
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
-use Facturizer\TextHelper;
+use Facturizer\TextHelper,
+    Facturizer\Storage\ObjectStorage;
 /**
  * Command\ListClients
  */
 class ListClients
 {
-    protected $entityManager;
+    protected $clientStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $clientStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->clientStorage = $clientStorage;
     }
 
     public function __invoke()
     {
-        $clients = $this->entityManager
-            ->getRepository('Facturizer\Entity\Client')
-            ->findAll();
+        $clients = $this->clientStorage->get();
 
         if (empty($clients)) {
             Cursor::colorize('fg(yellow)');
@@ -29,26 +27,9 @@ class ListClients
             return;
         }
 
-        $data = [['Id', 'Client', 'Projects', 'Unbilled Hours']];
+        $data = [['Id', 'Client']];
         foreach ($clients as $client) {
-            $unbilledHours = array_reduce(
-                $client->getProjects()->toArray(),
-                function ($carry, $project) {
-                    $unbilledProjectHours = array_reduce(
-                        $project->getActivities()->toArray(),
-                        function ($carry, $activity) {
-                            if (!$activity->isBillable()) {
-                                return $carry;
-                            }
-                            return $carry += $activity->getHoursSpent();
-                        },
-                        0
-                    );
-                    return $carry += $unbilledProjectHours;
-                },
-                0
-            );
-            $data[] = [$client->getId(), $client->getName(), $client->getProjects()->count(), $unbilledHours];
+            $data[] = [$client->getId(), $client->getName()];
         }
 
         echo TextHelper::buildTable($data);

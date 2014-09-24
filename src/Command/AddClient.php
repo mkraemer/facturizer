@@ -2,21 +2,21 @@
 
 namespace Facturizer\Command;
 
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
 use Facturizer\Entity\Client,
-    Facturizer\Exception\InvalidSyntaxException;
+    Facturizer\Exception\InvalidSyntaxException,
+    Facturizer\Storage\ObjectStorage;
 
 /**
  * Facturizer\Command\AddClient
  */
 class AddClient
 {
-    protected $entityManager;
+    protected $clientStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $clientStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->clientStorage = $clientStorage;
     }
 
     public function __invoke($inputs, $switches)
@@ -32,8 +32,7 @@ class AddClient
         $client->setCurrency(array_shift($inputs));
         $client->setTemplateName(array_shift($inputs));
 
-        $this->entityManager->persist($client);
-        $this->entityManager->flush();
+        $this->clientStorage->add($client);
 
         Cursor::colorize('fg(green)');
         echo 'Client created with id ' . $client->getId() . PHP_EOL;

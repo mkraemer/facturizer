@@ -21,6 +21,7 @@ mb_internal_encoding('UTF-8');
 if ($argv[0] == 'vendor/bin/doctrine.php') {
     return;
 }
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 
 $parser = new Hoa\Console\Parser();
 $parser->parse(Hoa\Router\Cli::getURI());

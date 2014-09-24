@@ -3,21 +3,21 @@
 namespace Facturizer\Command;
 
 use RuntimeException;
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Cursor;
 use Facturizer\Entity\Activity,
-    Facturizer\Exception\InvalidSyntaxException;
+    Facturizer\Exception\InvalidSyntaxException,
+    Facturizer\Storage\ObjectStorage;
 
 /**
  * Facturizer\Command\AddActivity
  */
 class AddActivity
 {
-    protected $entityManager;
+    protected $objectStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $objectStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->objectStorage = $objectStorage;
     }
 
     public function __invoke($inputs, $switches)
@@ -28,9 +28,22 @@ class AddActivity
 
         $projectId = array_shift($inputs);
 
-        $project = $this->entityManager
-            ->getRepository('Facturizer\Entity\Project')
-            ->findOneById($projectId);
+        $clients = $this->objectStorage->get();
+        $project = array_reduce(
+            $clients,
+            function ($carry, $client) use ($projectId) {
+                if ($carry) {
+                    return $carry;
+                }
+
+                foreach ($client->getProjects() as $project) {
+                    if ($project->getId() == $projectId) {
+                        return $project;
+                    }
+                }
+            }
+        );
+
         if (!$project) {
             throw new RuntimeException('Project not found');
         }
@@ -44,8 +57,7 @@ class AddActivity
             $activity->setIsBillable(false);
         }
 
-        $this->entityManager->persist($activity);
-        $this->entityManager->flush();
+        $project->addActivity($activity);
 
         Cursor::colorize('fg(green)');
         echo 'Activity created with id ' . $activity->getId() . PHP_EOL;

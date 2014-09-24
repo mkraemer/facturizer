@@ -2,61 +2,46 @@
 
 namespace Facturizer\Entity;
 
-use DateInterval;
-use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Facturizer\Entity\Activity
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Facturizer\Entity\ActivityRepository")
  */
 class Activity
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Type("string")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string")
+     * @Serializer\Type("string")
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="activities")
+     * @Serializer\Type("Facturizer\Entity\Project")
      */
     private $project;
 
     /**
-     * @var decimal
-     *
-     * @ORM\Column(name="hours_spent", type="decimal", scale=5, precision=2)
+     * @Serializer\Type("double")
      */
     private $hoursSpent;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_billable", type="boolean")
+     * @Serializer\Type("boolean")
      */
     private $isBillable;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_billed", type="boolean")
+     * @Serializer\Type("boolean")
      */
     private $isBilled;
 
     public function __construct(Project $project)
     {
+        $this->id         = uniqid();
         $this->project    = $project;
         $this->hoursSpent = 0;
         $this->isBillable = true;

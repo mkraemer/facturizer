@@ -3,12 +3,12 @@
 namespace Facturizer\Command;
 
 use RuntimeException;
-use Doctrine\ORM\EntityManager;
 use Hoa\Console\Readline\Readline,
     Hoa\Console\Readline\Autocompleter\Word as WordAutocompleter,
     Hoa\Console\Cursor;
 use Facturizer\Exception\InvalidSyntaxException,
     Facturizer\Entity\Client,
+    Facturizer\Storage\ObjectStorage,
     Facturizer\Entity\Project;
 
 /**
@@ -16,11 +16,11 @@ use Facturizer\Exception\InvalidSyntaxException,
  */
 class AddProject
 {
-    protected $entityManager;
+    protected $clientStorage;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectStorage $clientStorage)
     {
-        $this->entityManager = $entityManager;
+        $this->clientStorage = $clientStorage;
     }
 
     public function __invoke($inputs, $switches)
@@ -33,20 +33,15 @@ class AddProject
         $project = new Project();
 
         $clientId = array_shift($inputs);
-        $clientEntityRepository = $this->entityManager
-            ->getRepository('Facturizer\Entity\Client');
-        $client = $clientEntityRepository->findOneById($clientId);
+        $client = $this->clientStorage->getOne(function ($client) use ($clientId) {return ($client->getId() == $clientId);});
 
         if (!$client) {
             throw new RuntimeException('Client not found');
         }
 
-        $project->setClient($client);
-
         $project->setName(array_shift($inputs));
 
-        $this->entityManager->persist($project);
-        $this->entityManager->flush($project);
+        $client->addProject($project);
 
         Cursor::colorize('fg(green)');
         echo 'Project created with id ' . $project->getId() . PHP_EOL;

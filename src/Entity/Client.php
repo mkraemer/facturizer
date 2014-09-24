@@ -2,58 +2,47 @@
 
 namespace Facturizer\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Facturizer\Entity\Client
- *
- * @ORM\Table()
- * @ORM\Entity()
  */
 class Client
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Type("string")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string")
+     * @Serializer\Type("string")
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Project", mappedBy="client")
+     * @Serializer\Type("array<Facturizer\Entity\Project>")
      */
-    private $projects;
+    private $projects = [];
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="template_name", type="string")
+     * @Serializer\Type("string")
      */
     private $templateName;
 
     /**
-     * @var decimal
-     *
-     * @ORM\Column(name="hourly_rate", type="decimal", precision=6, scale=2)
+     * @Serializer\Type("integer")
      */
     private $hourlyRate;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="currency", type="string")
+     * @Serializer\Type("string")
      */
     private $currency;
 
+    public function __construct()
+    {
+        $this->id = uniqid();
+    }
 
     /**
      * get id
@@ -63,6 +52,18 @@ class Client
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * set id
+     *
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -90,11 +91,16 @@ class Client
     /**
      * get projects
      *
-     * @return ArrayCollection projects
+     * @return array projects
      */
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    public function addProject(Project $project)
+    {
+        $this->projects[] = $project;
     }
 
     /**
