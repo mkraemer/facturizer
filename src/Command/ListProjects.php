@@ -3,8 +3,8 @@
 namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
-use Hoa\Console\Cursor,
-    Hoa\Console\Chrome\Text;
+use Hoa\Console\Cursor;
+use Facturizer\TextHelper;
 
 /**
  * Command\ListProjects
@@ -45,7 +45,7 @@ class ListProjects
             $data[] = [$project->getId(), $project->getName(), $project->getClient()->getName(), $unbilledProjectHours];
         }
 
-        echo Text::columnize($data);
+        echo TextHelper::buildTable($data);
     }
 
     public function getDescription()

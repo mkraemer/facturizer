@@ -16,6 +16,8 @@ $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/config'));
 $loader->load('services.yml');
 $container->compile();
 
+mb_internal_encoding('UTF-8');
+
 if ($argv[0] == 'vendor/bin/doctrine.php') {
     return;
 }

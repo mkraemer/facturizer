@@ -21,8 +21,8 @@ class AddClient
 
     public function __invoke($inputs, $switches)
     {
-        if (count($inputs) != 3) {
-            throw new InvalidSyntaxException('Parameters for this command: client-name hourly-rate currency-sign');
+        if (count($inputs) != 4) {
+            throw new InvalidSyntaxException('Parameters for this command: client-name hourly-rate currency-sign template-name');
         }
 
         $client = new Client();
@@ -30,6 +30,7 @@ class AddClient
         $client->setName(array_shift($inputs));
         $client->setHourlyRate(array_shift($inputs));
         $client->setCurrency(array_shift($inputs));
+        $client->setTemplateName(array_shift($inputs));
 
         $this->entityManager->persist($client);
         $this->entityManager->flush();

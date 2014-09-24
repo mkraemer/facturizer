@@ -3,8 +3,8 @@
 namespace Facturizer\Command;
 
 use Doctrine\ORM\EntityManager;
-use Hoa\Console\Cursor,
-    Hoa\Console\Chrome\Text;
+use Hoa\Console\Cursor;
+use Facturizer\TextHelper;
 
 /**
  * Command\ListActivities
@@ -35,7 +35,7 @@ class ListActivities
             $data[] = [$activity->getId(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent(), $activity->isBillable() ? 'x' : ''];
         }
 
-        echo Text::columnize($data);
+        echo TextHelper::buildTable($data);
     }
 
     public function getDescription()

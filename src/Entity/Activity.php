@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Facturizer\Entity\Activity
  *
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Facturizer\Entity\ActivityRepository")
  */
 class Activity
 {
@@ -48,11 +48,19 @@ class Activity
      */
     private $isBillable;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_billed", type="boolean")
+     */
+    private $isBilled;
+
     public function __construct(Project $project)
     {
         $this->project    = $project;
         $this->hoursSpent = 0;
         $this->isBillable = true;
+        $this->isBilled   = false;
     }
 
     /**

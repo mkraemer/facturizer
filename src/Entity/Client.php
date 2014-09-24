@@ -34,6 +34,13 @@ class Client
     private $projects;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="template_name", type="string")
+     */
+    private $templateName;
+
+    /**
      * @var decimal
      *
      * @ORM\Column(name="hourly_rate", type="decimal", precision=6, scale=2)
@@ -88,6 +95,28 @@ class Client
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * get templateName
+     *
+     * @return string templateName
+     */
+    public function getTemplateName()
+    {
+        return $this->templateName;
+    }
+
+    /**
+     * set templateName
+     *
+     * @param string $templateName
+     */
+    public function setTemplateName($templateName)
+    {
+        $this->templateName = $templateName;
+
+        return $this;
     }
 
     /**

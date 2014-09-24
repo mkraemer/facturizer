@@ -1,5 +1,6 @@
 imports:
 - { resource: commands.yml }
+- { resource: parameters.yml }
 
 services:
     doctrine.config:
@@ -23,5 +24,21 @@ services:
                 path: facturizer.db
             - '@doctrine.config'
 
+
+    twig.loader:
+        class: Twig_Loader_Filesystem
+        arguments: [%template_path%]
+
+    twig.environment:
+        class: Twig_Environment
+        arguments:
+            - '@twig.loader'
+
     facturizer.registry.command_registry:
         class: Facturizer\Registry\CommandRegistry
+
+    facturizer.service.invoicing_service:
+        class: Facturizer\Service\InvoicingService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@twig.environment'

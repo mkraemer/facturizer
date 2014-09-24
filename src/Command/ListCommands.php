@@ -2,9 +2,9 @@
 
 namespace Facturizer\Command;
 
-use Hoa\Console\Cursor,
-    Hoa\Console\Chrome\Text;
-use Facturizer\Registry\CommandRegistry;
+use Hoa\Console\Cursor;
+use Facturizer\Registry\CommandRegistry,
+    Facturizer\TextHelper;
 
 /**
  * Facturizer\Command\ListCommands
@@ -32,7 +32,7 @@ class ListCommands
             $data[] = [$alias, $command->getDescription()];
         }
 
-        echo Text::columnize($data);
+        echo TextHelper::buildTable($data);
     }
 
     public function getDescription()
