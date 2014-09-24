@@ -22,7 +22,7 @@ services:
 
     facturizer.command.add_activity:
         class: Facturizer\Command\AddActivity
-        arguments: ['@facturizer.storage.clients']
+        arguments: ['@facturizer.storage.clients', '@facturizer.service.handle_service']
         tags:
             - { name: facturizer.command, alias: ac}
 
@@ -40,7 +40,7 @@ services:
 
     facturizer.command.add_project:
         class: Facturizer\Command\AddProject
-        arguments: ['@facturizer.storage.clients']
+        arguments: ['@facturizer.storage.clients', '@facturizer.service.handle_service']
         tags:
             - { name: facturizer.command, alias: pc}
 

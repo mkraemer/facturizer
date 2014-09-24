@@ -1,6 +1,5 @@
 imports:
 - { resource: commands.yml }
-- { resource: parameters.yml }
 
 services:
     facturizer.registry.command_registry:
@@ -17,9 +16,13 @@ services:
         arguments:
             - '@filesystem'
             - '@serializer'
+            - '@facturizer.service.handle_service'
             - %storage_path%
             - 'Facturizer\Entity\Client'
             - 'clients'
+
+    facturizer.service.handle_service:
+        class: Facturizer\Service\HandleService
 
     twig.loader:
         class: Twig_Loader_Filesystem

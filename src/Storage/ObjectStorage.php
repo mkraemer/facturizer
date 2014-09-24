@@ -4,6 +4,7 @@ namespace Facturizer\Storage;
 
 use Symfony\Component\Filesystem\Filesystem;
 use JMS\Serializer\Serializer;
+use Facturizer\Service\HandleService;
 
 /**
  * Facturizer\Storage\ObjectStorage
@@ -20,22 +21,35 @@ class ObjectStorage
 
     protected $objects = [];
 
-    public function __construct(Filesystem $filesystem, Serializer $serializer, $storagePath, $objectNamespace, $key)
+    protected $handleService;
+
+    public function __construct(Filesystem $filesystem, Serializer $serializer, HandleService $handleService, $storagePath, $objectNamespace, $key)
     {
         $this->filesystem = $filesystem;
 
         $this->objectNamespace = $objectNamespace;
 
-        //$this->serializer = \JMS\Serializer\SerializerBuilder::create()->build();
         $this->serializer = $serializer;
 
-        $this->filePath = $storagePath . '/' . $key . '.json';
+        $this->handleService = $handleService;
+
+        $this->filePath = self::expandTilde($storagePath . '/' . $key . '.json');
 
         if ($this->filesystem->exists($this->filePath)) {
             $content = file_get_contents($this->filePath);
             $this->objects = $this->serializer->deserialize($content, 'array<'.$this->objectNamespace.'>', 'json');
         }
     }
+
+    static function expandTilde($path)
+    {
+        if (function_exists('posix_getuid') && strpos($path, '~') !== false) {
+            $info = posix_getpwuid(posix_getuid());
+            $path = str_replace('~', $info['dir'], $path);
+        }
+
+    return $path;
+}
 
     public function get(callable $filter = null)
     {
@@ -55,7 +69,7 @@ class ObjectStorage
 
     public function add($object)
     {
-        $object->setId(uniqid());
+        $this->handleService->assignHandle($this->objects, $object);
 
         $this->objects[] = $object;
     }

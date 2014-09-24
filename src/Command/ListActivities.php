@@ -41,9 +41,9 @@ class ListActivities
             return;
         }
 
-        $data = [['Id', 'Activity', 'Client', 'Project', 'Time spent (h)', 'Billable']];
+        $data = [['Handle', 'Activity', 'Client', 'Project', 'Time spent (h)', 'Billable']];
         foreach ($activities as $activity) {
-            $data[] = [$activity->getId(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent(), $activity->isBillable() ? '√' : ''];
+            $data[] = [$activity->getHandle(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursSpent(), $activity->isBillable() ? '√' : ''];
         }
 
         echo TextHelper::buildTable($data);

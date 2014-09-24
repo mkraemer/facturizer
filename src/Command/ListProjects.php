@@ -35,7 +35,7 @@ class ListProjects
             return;
         }
 
-        $data = [['Id', 'Project', 'Client', 'Unbilled Hours']];
+        $data = [['Handle', 'Project', 'Client', 'Unbilled Hours']];
         foreach ($projects as $client => $project) {
             $unbilledProjectHours = array_reduce(
                 $project->getActivities(),
@@ -47,7 +47,7 @@ class ListProjects
                 },
                 0
             );
-            $data[] = [$project->getId(), $project->getName(), $project->getClient()->getName(), $unbilledProjectHours];
+            $data[] = [$project->getHandle(), $project->getName(), $project->getClient()->getName(), $unbilledProjectHours];
         }
 
         echo TextHelper::buildTable($data);

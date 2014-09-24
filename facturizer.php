@@ -14,6 +14,10 @@ $container = new ContainerBuilder();
 $container->addCompilerPass(new CommandCompilerPass());
 $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/config'));
 $loader->load('services.yml');
+
+$configPath = getenv('HOME') . '/.facturizer/config.yml';
+$loader->load($configPath);
+
 $container->compile();
 
 mb_internal_encoding('UTF-8');

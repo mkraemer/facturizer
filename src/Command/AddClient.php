@@ -35,7 +35,7 @@ class AddClient
         $this->clientStorage->add($client);
 
         Cursor::colorize('fg(green)');
-        echo 'Client created with id ' . $client->getId() . PHP_EOL;
+        echo 'Client created with handle ' . $client->getHandle() . PHP_EOL;
     }
 
     public function getDescription()

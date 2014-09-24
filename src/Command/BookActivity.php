@@ -26,18 +26,18 @@ class BookActivity
         if (count($inputs) < 2) {
             throw new InvalidSyntaxException('Parameters for this command: activity-id time-spec');
         }
-        $activityId = array_shift($inputs);
+        $activityHandle = array_shift($inputs);
 
         $activity = array_reduce(
             $this->objectStorage->get(),
-            function ($carry, $client) use ($activityId) {
+            function ($carry, $client) use ($activityHandle) {
                 if ($carry) {
                     return $carry;
                 }
 
                 foreach ($client->getProjects() as $project) {
                     foreach ($project->getActivities() as $activity) {
-                        if ($activity->getId() == $activityId) {
+                        if ($activity->getHandle() == $activityHandle) {
                             return $activity;
                         }
                     }

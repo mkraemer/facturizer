@@ -6,6 +6,7 @@ use RuntimeException;
 use Hoa\Console\Cursor;
 use Facturizer\Entity\Activity,
     Facturizer\Exception\InvalidSyntaxException,
+    Facturizer\Service\HandleService,
     Facturizer\Storage\ObjectStorage;
 
 /**
@@ -13,11 +14,15 @@ use Facturizer\Entity\Activity,
  */
 class AddActivity
 {
-    protected $objectStorage;
+    protected $clientStorage;
 
-    public function __construct(ObjectStorage $objectStorage)
+    protected $handleService;
+
+    public function __construct(ObjectStorage $clientStorage, HandleService $handleService)
     {
-        $this->objectStorage = $objectStorage;
+        $this->clientStorage = $clientStorage;
+
+        $this->handleService = $handleService;
     }
 
     public function __invoke($inputs, $switches)
@@ -26,18 +31,18 @@ class AddActivity
             throw new InvalidSyntaxException('Parameters for this command: project-id activity-name [--unbilled]');
         }
 
-        $projectId = array_shift($inputs);
+        $projectHandle = array_shift($inputs);
 
-        $clients = $this->objectStorage->get();
+        $clients = $this->clientStorage->get();
         $project = array_reduce(
             $clients,
-            function ($carry, $client) use ($projectId) {
+            function ($carry, $client) use ($projectHandle) {
                 if ($carry) {
                     return $carry;
                 }
 
                 foreach ($client->getProjects() as $project) {
-                    if ($project->getId() == $projectId) {
+                    if ($project->getHandle() == $projectHandle) {
                         return $project;
                     }
                 }
@@ -51,6 +56,7 @@ class AddActivity
         $name = array_shift($inputs);
 
         $activity = new Activity($project);
+        $this->handleService->assignHandle($this->clientStorage->get(), $activity);
         $activity->setName($name);
 
         if (array_key_exists('unbilled', $switches) && $switches['unbilled']) {
@@ -60,7 +66,7 @@ class AddActivity
         $project->addActivity($activity);
 
         Cursor::colorize('fg(green)');
-        echo 'Activity created with id ' . $activity->getId() . PHP_EOL;
+        echo 'Activity created with handle ' . $activity->getHandle() . PHP_EOL;
     }
 
     public function getDescription()

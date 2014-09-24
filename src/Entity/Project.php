@@ -9,6 +9,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class Project
 {
+    use HandleTrait;
+
     /**
      * @Serializer\Type("string")
      */

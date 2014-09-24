@@ -27,9 +27,9 @@ class ListClients
             return;
         }
 
-        $data = [['Id', 'Client']];
+        $data = [['Handle', 'Client']];
         foreach ($clients as $client) {
-            $data[] = [$client->getId(), $client->getName()];
+            $data[] = [$client->getHandle(), $client->getName()];
         }
 
         echo TextHelper::buildTable($data);
