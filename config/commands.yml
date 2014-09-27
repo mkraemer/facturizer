@@ -1,12 +1,11 @@
 services:
-
-    #facturizer.command.create_invoice:
-        #class: Facturizer\Command\CreateInvoice
-        #arguments:
-            #- '@doctrine.orm.entity_manager'
-            #- '@facturizer.service.invoicing_service'
-        #tags:
-            #- { name: facturizer.command, alias: invoice}
+    facturizer.command.create_invoice:
+        class: Facturizer\Command\CreateInvoice
+        arguments:
+            - '@facturizer.storage.clients'
+            - '@facturizer.service.invoicing_service'
+        tags:
+            - { name: facturizer.command, alias: invoice}
 
     facturizer.command.book_activity:
         class: Facturizer\Command\BookActivity

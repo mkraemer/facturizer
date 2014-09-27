@@ -8,7 +8,6 @@ services:
     facturizer.service.invoicing_service:
         class: Facturizer\Service\InvoicingService
         arguments:
-            - '@facturizer.storage.clients'
             - '@twig.environment'
 
     facturizer.storage.clients:
@@ -16,18 +15,31 @@ services:
         arguments:
             - '@filesystem'
             - '@serializer'
-            - %storage_path%
+            - "@=service('facturizer.path_helper').getPath(parameter('storage_path'))"
             - 'Facturizer\Entity\Client'
             - 'clients'
+
+    facturizer.storage.invoices:
+        class: Facturizer\Storage\ObjectStorage
+        arguments:
+            - '@filesystem'
+            - '@serializer'
+            - "@=service('facturizer.path_helper').getPath(parameter('storage_path'))"
+            - 'Facturizer\Entity\Invoice'
+            - 'invoices'
 
     facturizer.service.handle_service:
         class: Facturizer\Service\HandleService
         arguments:
             - '@facturizer.storage.clients'
 
+    facturizer.path_helper:
+        class: Facturizer\PathHelper
+
     twig.loader:
         class: Twig_Loader_Filesystem
-        arguments: [%template_path%]
+        arguments:
+            - "@=service('facturizer.path_helper').getPath(parameter('template_path'))"
 
     twig.environment:
         class: Twig_Environment

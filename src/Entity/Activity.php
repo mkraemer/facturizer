@@ -37,9 +37,9 @@ class Activity
     private $isBillable;
 
     /**
-     * @Serializer\Type("boolean")
+     * @Serializer\Type("string")
      */
-    private $isBilled;
+    private $invoiceId;
 
     public function __construct(Project $project)
     {
@@ -137,6 +137,28 @@ class Activity
     public function setIsBillable($isBillable)
     {
         $this->isBillable = $isBillable;
+
+        return $this;
+    }
+
+    /**
+     * get invoiceId
+     *
+     * @return string invoiceId
+     */
+    public function getInvoiceId()
+    {
+        return $this->invoiceId;
+    }
+
+    /**
+     * set invoiceId
+     *
+     * @param string $invoiceId
+     */
+    public function setInvoiceId($invoiceId)
+    {
+        $this->invoiceId = $invoiceId;
 
         return $this;
     }

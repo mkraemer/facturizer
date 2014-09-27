@@ -11,6 +11,7 @@
         "hoa/router": "dev-master",
         "twig/twig": "v1.16.0",
         "jms/serializer": "dev-master",
-        "symfony/filesystem": "dev-master"
+        "symfony/filesystem": "2.5.*",
+        "symfony/expression-language": "2.5.*"
     }
 }

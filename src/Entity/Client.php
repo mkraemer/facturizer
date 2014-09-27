@@ -41,6 +41,11 @@ class Client
      */
     private $currency;
 
+    /**
+     * @Serializer\Type("array<Facturizer\Entity\Invoice>")
+     */
+    private $invoices;
+
     public function __construct()
     {
         $this->id = uniqid();
