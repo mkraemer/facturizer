@@ -16,13 +16,14 @@ services:
         arguments:
             - '@filesystem'
             - '@serializer'
-            - '@facturizer.service.handle_service'
             - %storage_path%
             - 'Facturizer\Entity\Client'
             - 'clients'
 
     facturizer.service.handle_service:
         class: Facturizer\Service\HandleService
+        arguments:
+            - '@facturizer.storage.clients'
 
     twig.loader:
         class: Twig_Loader_Filesystem

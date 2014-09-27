@@ -4,7 +4,6 @@ namespace Facturizer\Storage;
 
 use Symfony\Component\Filesystem\Filesystem;
 use JMS\Serializer\Serializer;
-use Facturizer\Service\HandleService;
 
 /**
  * Facturizer\Storage\ObjectStorage
@@ -21,17 +20,13 @@ class ObjectStorage
 
     protected $objects = [];
 
-    protected $handleService;
-
-    public function __construct(Filesystem $filesystem, Serializer $serializer, HandleService $handleService, $storagePath, $objectNamespace, $key)
+    public function __construct(Filesystem $filesystem, Serializer $serializer, $storagePath, $objectNamespace, $key)
     {
         $this->filesystem = $filesystem;
 
         $this->objectNamespace = $objectNamespace;
 
         $this->serializer = $serializer;
-
-        $this->handleService = $handleService;
 
         $this->filePath = self::expandTilde($storagePath . '/' . $key . '.json');
 
@@ -69,8 +64,6 @@ class ObjectStorage
 
     public function add($object)
     {
-        $this->handleService->assignHandle($this->objects, $object);
-
         $this->objects[] = $object;
     }
 

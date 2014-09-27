@@ -56,7 +56,7 @@ class AddActivity
         $name = array_shift($inputs);
 
         $activity = new Activity($project);
-        $this->handleService->assignHandle($this->clientStorage->get(), $activity);
+        $this->handleService->assignHandle($activity);
         $activity->setName($name);
 
         if (array_key_exists('unbilled', $switches) && $switches['unbilled']) {

@@ -36,7 +36,7 @@ class AddProject
 
         Cursor::colorize('fg(yellow)');
         $project = new Project();
-        $this->handleService->assignHandle($this->clientStorage->get(), $project);
+        $this->handleService->assignHandle($project);
 
         $clientHandle = array_shift($inputs);
         $client = $this->clientStorage->getOne(function ($client) use ($clientHandle) {return ($client->getHandle() == $clientHandle);});

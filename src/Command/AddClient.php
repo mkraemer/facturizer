@@ -32,6 +32,7 @@ class AddClient
         $client->setCurrency(array_shift($inputs));
         $client->setTemplateName(array_shift($inputs));
 
+        $this->handleService->assignHandle($client);
         $this->clientStorage->add($client);
 
         Cursor::colorize('fg(green)');

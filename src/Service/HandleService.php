@@ -2,16 +2,25 @@
 
 namespace Facturizer\Service;
 
+use Facturizer\Storage\ObjectStorage;
+
 /**
  * Facturizer\Service\HandleService
  */
 class HandleService
 {
-    private function findFreeHandle($existingObjects, $objectClass)
+    protected $objectStorage;
+
+    public function __construct(ObjectStorage $objectStorage)
+    {
+        $this->objectStorage = $objectStorage;
+    }
+
+    private function findFreeHandle($objectClass)
     {
         $usedHandles = [];
 
-        foreach ($existingObjects as $client) {
+        foreach ($this->objectStorage->get() as $client) {
             if (get_class($client) == $objectClass) {
                 $usedHandles[] = $client->getHandle();
             } else {
@@ -35,11 +44,9 @@ class HandleService
         return $handle;
     }
 
-    public function assignHandle($allObjects, $newObject)
+    public function assignHandle($newObject)
     {
-        $objectClass = get_class($newObject);
-
-        $handle = $this->findFreeHandle($allObjects, $objectClass);
+        $handle = $this->findFreeHandle(get_class($newObject));
 
         $newObject->setHandle($handle);
     }
