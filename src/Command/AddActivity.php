@@ -28,7 +28,7 @@ class AddActivity
     public function __invoke($inputs, $switches)
     {
         if (count($inputs) < 2) {
-            throw new InvalidSyntaxException('Parameters for this command: project-id activity-name [--unbilled]');
+            throw new InvalidSyntaxException('Parameters for this command: project-id activity-name [--unbilled] [--estimation=x]');
         }
 
         $projectHandle = array_shift($inputs);
@@ -61,6 +61,10 @@ class AddActivity
 
         if (array_key_exists('unbilled', $switches) && $switches['unbilled']) {
             $activity->setIsBillable(false);
+        }
+
+        if (array_key_exists('estimation', $switches) && $switches['estimation']) {
+            $activity->setHoursEstimated($switches['estimation']);
         }
 
         $project->addActivity($activity);

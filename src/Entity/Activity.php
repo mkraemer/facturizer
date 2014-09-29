@@ -32,6 +32,11 @@ class Activity
     private $hoursSpent;
 
     /**
+     * @Serializer\Type("double")
+     */
+    private $hoursEstimated;
+
+    /**
      * @Serializer\Type("boolean")
      */
     private $isBillable;
@@ -159,6 +164,28 @@ class Activity
     public function setInvoiceId($invoiceId)
     {
         $this->invoiceId = $invoiceId;
+
+        return $this;
+    }
+
+    /**
+     * get hoursEstimated
+     *
+     * @return double hoursEstimated
+     */
+    public function getHoursEstimated()
+    {
+        return $this->hoursEstimated;
+    }
+
+    /**
+     * set hoursEstimated
+     *
+     * @param double $hoursEstimated
+     */
+    public function setHoursEstimated($hoursEstimated)
+    {
+        $this->hoursEstimated = $hoursEstimated;
 
         return $this;
     }
