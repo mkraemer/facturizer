@@ -36,6 +36,12 @@ services:
     facturizer.path_helper:
         class: Facturizer\PathHelper
 
+    facturizer.service.object_editor:
+        class: Facturizer\Service\ObjectEditingService
+        arguments:
+            - '@filesystem'
+            - '@serializer'
+
     twig.loader:
         class: Twig_Loader_Filesystem
         arguments:

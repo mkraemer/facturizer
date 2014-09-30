@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Facturizer\Entity\Client
+ *
+ * @Serializer\AccessType("public_method")
  */
 class Client
 {
@@ -105,6 +107,18 @@ class Client
         return $this->projects;
     }
 
+    /**
+     * set projects
+     *
+     * @param array $projects
+     */
+    public function setProjects($projects)
+    {
+        $this->projects = $projects;
+
+        return $this;
+    }
+
     public function addProject(Project $project)
     {
         $this->projects[] = $project;
@@ -172,6 +186,28 @@ class Client
     public function setCurrency($currency)
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * get invoices
+     *
+     * @return array invoices
+     */
+    public function getInvoices()
+    {
+        return $this->invoices;
+    }
+
+    /**
+     * set invoices
+     *
+     * @param array $invoices
+     */
+    public function setInvoices($invoices)
+    {
+        $this->invoices = $invoices;
 
         return $this;
     }

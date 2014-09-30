@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Facturizer\Entity\Project
+ *
+ * @Serializer\AccessType("public_method")
  */
 class Project
 {
@@ -44,6 +46,18 @@ class Project
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * set id
+     *
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -98,6 +112,18 @@ class Project
     public function getActivities()
     {
         return $this->activities;
+    }
+
+    /**
+     * set activities
+     *
+     * @param array $activities
+     */
+    public function setActivities($activities)
+    {
+        $this->activities = $activities;
+
+        return $this;
     }
 
     public function addActivity(Activity $activity)

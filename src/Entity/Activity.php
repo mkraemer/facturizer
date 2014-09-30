@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Facturizer\Entity\Activity
+ *
+ * @Serializer\AccessType("public_method")
  */
 class Activity
 {
@@ -66,6 +68,18 @@ class Activity
     }
 
     /**
+     * set id
+     *
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * get name
      *
      * @return string name
@@ -112,11 +126,23 @@ class Activity
     /**
      * get hoursSpent
      *
-     * @return float hoursSpent
+     * @return array hoursSpent
      */
     public function getHoursSpent()
     {
         return $this->hoursSpent;
+    }
+
+    /**
+     * set hoursSpent
+     *
+     * @param array $hoursSpent
+     */
+    public function setHoursSpent($hoursSpent)
+    {
+        $this->hoursSpent = $hoursSpent;
+
+        return $this;
     }
 
     public function addHoursSpent($hours)
@@ -129,7 +155,7 @@ class Activity
      *
      * @return boolean isBillable
      */
-    public function isBillable()
+    public function getIsBillable()
     {
         return $this->isBillable;
     }

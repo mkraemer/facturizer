@@ -13,6 +13,13 @@ services:
         tags:
             - { name: facturizer.command, alias: ab}
 
+    facturizer.command.edit_activity:
+        class: Facturizer\Command\EditActivity
+
+        arguments: ['@facturizer.storage.clients', '@facturizer.service.object_editor']
+        tags:
+            - { name: facturizer.command, alias: ae}
+
     facturizer.command.list_activities:
         class: Facturizer\Command\ListActivities
         arguments: ['@facturizer.storage.clients']
