@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "851a699cbd78c05396f5f076e62e67b5",
+    "hash": "dc334dd80620a8c835fc8a671628eb80",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -589,6 +589,55 @@
                 "xml"
             ],
             "time": "2014-09-22 10:01:27"
+        },
+        {
+            "name": "league/climate",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/climate.git",
+                "reference": "ad66aec91e3ab45e87eda26949d5e83f85562b75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/ad66aec91e3ab45e87eda26949d5e83f85562b75",
+                "reference": "ad66aec91e3ab45e87eda26949d5e83f85562b75",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\CLImate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joe Tannenbaum",
+                    "email": "hey@joe.codes",
+                    "homepage": "http://joe.codes/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP's best friend for the terminal. CLImate allows you to easily output colored text, special formats, and more.",
+            "keywords": [
+                "cli",
+                "colors",
+                "command",
+                "php",
+                "terminal"
+            ],
+            "time": "2014-10-07 01:10:31"
         },
         {
             "name": "phpcollection/phpcollection",

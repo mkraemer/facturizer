@@ -15,7 +15,7 @@ services:
 
     facturizer.command.list_activities:
         class: Facturizer\Command\ListActivities
-        arguments: ['@facturizer.storage.clients']
+        arguments: ['@facturizer.storage.clients', '@climate']
         tags:
             - { name: facturizer.command, alias: al}
 

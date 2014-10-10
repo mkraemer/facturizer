@@ -2,9 +2,9 @@
 
 namespace Facturizer\Command;
 
-use Hoa\Console\Cursor;
 use Facturizer\TextHelper,
     Facturizer\Storage\ObjectStorage;
+use League\CLImate\CLImate;
 
 /**
  * Command\ListActivities
@@ -13,9 +13,13 @@ class ListActivities
 {
     protected $objectStorage;
 
-    public function __construct(ObjectStorage $objectStorage)
+    protected $climate;
+
+    public function __construct(ObjectStorage $objectStorage, Climate $climate)
     {
         $this->objectStorage = $objectStorage;
+
+        $this->climate = $climate;
     }
 
     public function __invoke()
@@ -36,17 +40,24 @@ class ListActivities
         );
 
         if (empty($activities)) {
-            Cursor::colorize('fg(yellow)');
-            echo 'You have no active activities' . PHP_EOL;
+            $this->climate->info('You have no active activities');
             return;
         }
 
-        $data = [['Handle', 'Activity', 'Client', 'Project', 'Time estimated (h)', 'Time spent (h)', 'Billable']];
+        $data = [];
         foreach ($activities as $activity) {
-            $data[] = [$activity->getHandle(), $activity->getName(), $activity->getProject()->getClient()->getName(), $activity->getProject()->getName(), $activity->getHoursEstimated(), $activity->getHoursSpent(), $activity->isBillable() ? '√' : ''];
+            $data[] = [
+                '<underline>Handle</underline>'    => $activity->getHandle(),
+                '<underline>Activity</underline>'  => $activity->getName(),
+                '<underline>Client</underline>'    => $activity->getProject()->getClient()->getName(),
+                '<underline>Project</underline>'   => $activity->getProject()->getName(),
+                '<underline>Est. (h)</underline>'  => (string)$activity->getHoursEstimated(),
+                '<underline>Spent (h)</underline>' => (string)$activity->getHoursSpent(),
+                '<underline>Billable</underline>'  => $activity->isBillable() ? '√' : ''
+            ];
         }
 
-        echo TextHelper::buildTable($data);
+        $this->climate->table($data);
     }
 
     public function getDescription()

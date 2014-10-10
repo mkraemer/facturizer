@@ -55,3 +55,6 @@ services:
         class: JMS\Serializer\Serializer
         factory_service: serializer_builder
         factory_method: build
+
+    climate:
+        class: League\CLImate\CLImate
