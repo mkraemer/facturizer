@@ -12,8 +12,7 @@ class TextHelper
 
     public static function buildTable($data, $columnPadding = 2)
     {
-        $window    = \Hoa\Console\Window::getSize();
-        $windowWidth = $window['x'];
+        $windowWidth = system('tput cols');
 
         $minimalColumnWidths = [];
         $optimalColumnWidths = array_fill(0, count($data[0]), 0);
