@@ -31,8 +31,6 @@ class CreateInvoice
             throw new InvalidSyntaxException('Parameters for this command: client-handle invoice-id');
         }
 
-        Cursor::colorize('fg(yellow)');
-
         $clientHandle = array_shift($inputs);
         $client = $this->clientStorage->getOne(function ($client) use ($clientHandle) {return ($client->getHandle() == $clientHandle);});
 
