@@ -12,7 +12,7 @@ class TextHelper
 
     public static function buildTable($data, $columnPadding = 2)
     {
-        $windowWidth = system('tput cols');
+        $windowWidth = exec('tput cols');
 
         $minimalColumnWidths = [];
         $optimalColumnWidths = array_fill(0, count($data[0]), 0);
