@@ -51,6 +51,6 @@ services:
 
     facturizer.command.add_client:
         class: Facturizer\Command\AddClient
-        arguments: ['@facturizer.storage.clients']
+        arguments: ['@facturizer.storage.clients', '@facturizer.service.handle_service']
         tags:
             - { name: facturizer.command, alias: cc}

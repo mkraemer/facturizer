@@ -5,6 +5,7 @@ namespace Facturizer\Command;
 use Hoa\Console\Cursor;
 use Facturizer\Entity\Client,
     Facturizer\Exception\InvalidSyntaxException,
+    Facturizer\Service\HandleService,
     Facturizer\Storage\ObjectStorage;
 
 /**
@@ -14,9 +15,13 @@ class AddClient
 {
     protected $clientStorage;
 
-    public function __construct(ObjectStorage $clientStorage)
+    protected $handleService;
+
+    public function __construct(ObjectStorage $clientStorage, HandleService $handleService)
     {
         $this->clientStorage = $clientStorage;
+
+        $this->handleService = $handleService;
     }
 
     public function __invoke($inputs, $switches)
